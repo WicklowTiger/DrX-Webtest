@@ -1,0 +1,26 @@
+{% extends "blog/base.html" %}
+{% load static %}
+{% block content %}
+    {% if user.is_superuser %}
+      <div>
+        <a class="btn btn-success btn-sm mt-1 mb-1" href="{% url 'service-create'%}">Add new service</a>
+      </div>
+    {% endif %}
+    {% for service in services %}
+    <article class="media content-section">
+      <div>
+        <img src="{{service.image.url}}">
+      </div>
+      <div class="media-body">
+          {% if user.is_superuser %}
+            <h2 style="text-align: center;"><a class="article-title" href="{% url 'service-detail' service.id %}">{{ service.title }}</a></h2>
+          {% else %}
+            <h2 style="text-align: center;"><a class="article-title" >{{ service.title }}</a></h2>
+          {% endif %}
+        <p class="article-content" style="text-align: center;">"Price: {{ service.price }} $"</p>
+        <p class="article-content" style="text-align: center;">{{ service.content }}</p>
+          <a class="btn btn-success btn-sm mt-1 mb-1" style="margin-left: 46%;" href="{% url 'book' %} ">Book</a>
+      </div>
+    </article>
+    {% endfor %}
+{% endblock content %}
